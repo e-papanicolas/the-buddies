@@ -4,7 +4,11 @@
   "description": "**Keeping Up With the Buddies** is an app to help cat parents keep track of their buddies! Cat parents can create accounts with pet profiles to store health data such as vaccinations and keep track of meal times with meal schedules and diary entries.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint ./",
+    "test": "jest -i --verbose --coverage --runInBand",
+    "start": "node index.js",
+    "dboff": "killall mongod",
+    "watch": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -24,7 +28,13 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "express-session": "^1.17.2",
+    "http-errors": "^2.0.0",
     "mongoose": "^6.2.10",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "superagent": "^7.1.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "jest": "^27.5.1"
   }
 }
