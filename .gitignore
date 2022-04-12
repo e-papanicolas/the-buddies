@@ -1,7 +1,7 @@
 client/node_modules
 api/node_modules
 .DS_Store
-others/
+other/
 # dependencies
 /node_modules
 /.pnp
