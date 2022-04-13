@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 5000;
@@ -14,6 +15,7 @@ const petsRouter = require("./routes/PetRoutes");
 // middleware for parsing requests
 app.use(cors());
 app.use(bodyParser.json());
+app.use(cookieParser());
 
 // middleware for routes and errors
 app.use("/users", usersRouter);
