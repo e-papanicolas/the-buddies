@@ -1,0 +1,42 @@
+.app {
+  padding: 1%;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  padding-left: 1%;
+}
+
+.nav h2 {
+  padding-right: 5px;
+}
+
+.nav form {
+  padding-left: 5px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  padding-right: 1%;
+}
+
+.dashboard-container {
+  padding-left: 1%;
+  padding-right: 1%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
+.dashboard-container > div {
+  width: 40%;
+  height: 30%;
+  border: 1px solid red;
+}

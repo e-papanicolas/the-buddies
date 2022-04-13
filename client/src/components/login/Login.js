@@ -11,7 +11,7 @@ export default function Login({ handleLogin }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  async function handleSubmitLogin(e) {
+  function handleSubmitLogin(e) {
     e.preventDefault();
     fetch("/users/login", {
       method: "POST",
@@ -33,7 +33,7 @@ export default function Login({ handleLogin }) {
   return (
     <div>
       Login
-      <form onSubmit={() => handleSubmitLogin}>
+      <form onSubmit={handleSubmitLogin}>
         <div>
           <label>
             Email:

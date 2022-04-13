@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const uuid = require("uuid");
 
 const users = User.find();
 
 class Session {
   constructor(email, expiresAt) {
-    this.username = username;
+    this.email = email;
     this.expiresAt = expiresAt;
   }
 
@@ -17,31 +18,39 @@ class Session {
 const sessions = {};
 
 const createSession = (req, res, next) => {
-  const { email, password } = req.body;
+  console.log(req.body);
+
+  const { email, password, isNew } = req.body;
   if (!email) {
     res.status(401).send();
     return;
   }
-  // validate
-  const expectedPassword = users[email];
-  if (!expectedPassword || expectedPassword !== password) {
-    res.status(401).send();
-    return;
+
+  let expectedPassword;
+  if (!isNew) {
+    // validate
+    expectedPassword = users[email];
+    if (!expectedPassword || expectedPassword !== password) {
+      res.status(401).send("Incorrect password");
+      return;
+    }
   }
 
-  // generate uuid as session token
-  const sessionToken = uuid.v4();
+  if (!res.sessionToken) {
+    // generate uuid as session token
+    const sessionToken = uuid.v4();
 
-  // sets expiration time
-  const now = new Date();
-  const expiresAt = new Date(+now + 120 * 1000);
+    // sets expiration time
+    const now = new Date();
+    const expiresAt = new Date(+now + 120 * 1000);
 
-  // create session
-  const session = new Session(email, expiresAt);
-  sessions[sessionToken] = session;
+    // create session
+    const session = new Session(email, expiresAt);
+    sessions[sessionToken] = session;
 
-  // in res, set cookie and expiration
-  res.cookie("session_token", sessionToken, { expires: expiresAt });
+    // in res, set cookie and expiration
+    res.cookie("session_token", sessionToken, { expires: expiresAt });
+  }
   next();
 };
 

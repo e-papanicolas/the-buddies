@@ -12,7 +12,7 @@ export default function Signup({ handleLogin }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmitSignup = async (e) => {
+  const handleSubmitSignup = (e) => {
     e.preventDefault();
     fetch("/users/register", {
       method: "POST",

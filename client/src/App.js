@@ -12,14 +12,29 @@ import Login from "./components/login/Login";
 import Food from "./components/food/Food";
 import Health from "./components/health/Health";
 import Profile from "./components/profile/Profile";
+import NewPetForm from "./components/profile/NewPetForm";
+import UpdatePetForm from "./components/profile/UpdatePetForm";
+import NewFeedingSchedule from "./components/food/NewFeedingSchedule";
+import NewMealEntryForm from "./components/food/NewMealEntryForm";
+import NewHealthRecordForm from "./components/health/NewHealthRecordForm";
+import NewVetForm from "./components/health/NewVetForm";
+import NewApptForm from "./components/health/NewApptForm";
 
 export default function App() {
   const navigate = useNavigate();
 
   // set state
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({
+    email: "elenipapanicolas@gmail.com",
+    password: "123",
+    full_name: "Eleni Papanicolas",
+    id: "625717a4166ed55a7e527574",
+    pets: [],
+    created: "2022-04-13T18:34:12.479Z",
+  });
+  const [currentPet, setCurrentPet] = useState({});
   // const [errors, setErrors] = useState([]);
-  const [isLoggedIn, setLoggedIn] = useState(false);
+  const [isLoggedIn, setLoggedIn] = useState(true);
 
   // handles login and logout, sets or removes user
   function handleLogin(user) {
@@ -29,14 +44,19 @@ export default function App() {
   }
 
   function handleLogOut() {
+    fetch(`/users/${currentUser.id}/logout`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     setLoggedIn(false);
-    localStorage.clear();
     navigate("/");
   }
 
   // fetches the user from api and sets user in state
   // useEffect(() => {
-  //   fetch("", {}).then((res) => {
+  //   fetch(`/users/${currentUser.id}`).then((res) => {
   //     if (res.ok) {
   //       res.json().then((data) => {
   //         setCurrentUser(data.user);
@@ -44,7 +64,7 @@ export default function App() {
   //       });
   //     } else {
   //       res.json().then((data) => {
-  //         // setErrors(data.errors);
+  // setErrors(data.errors);
   //         console.log(data);
   //       });
   //     }
@@ -66,13 +86,30 @@ export default function App() {
   }
 
   return (
-    <div>
-      <Navbar handleLogOut={handleLogOut} user={currentUser} />
+    <div className="app">
+      <Navbar
+        handleLogOut={handleLogOut}
+        user={currentUser}
+        setCurrentPet={setCurrentPet}
+      />
       <Routes>
-        <Route path="/dashboard" element={<Dashboard user={currentUser} />} />
-        <Route path="/food" element={<Food />} />
-        <Route path="/health" element={<Health />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/dashboard"
+          element={<Dashboard user={currentUser} currentPet={currentPet} />}
+        />
+        <Route path="/food/:name" element={<Food />}>
+          <Route path="new_feeding_schedule" element={<NewFeedingSchedule />} />
+          <Route path="new_meal" element={<NewMealEntryForm />} />
+        </Route>
+        <Route path="/health/:name" element={<Health />}>
+          <Route path="new_record" element={<NewHealthRecordForm />} />
+          <Route path="new_vet" element={<NewVetForm />} />
+          <Route path="new_appt" element={<NewApptForm />} />
+        </Route>
+        <Route path="/profile/:name" element={<Profile />}>
+          <Route path="update_pet" element={<UpdatePetForm />} />
+        </Route>
+        <Route path="/new_pet" element={<NewPetForm />} />
       </Routes>
     </div>
   );
