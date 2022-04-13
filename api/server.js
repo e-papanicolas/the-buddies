@@ -9,6 +9,7 @@ const MONGODB_URI =
   "mongodb+srv://eleni_papanicolas:yRXgWBON1n6eJlcLbCBi@cluster0.3quwk.mongodb.net/cat-track?retryWrites=true&w=majority";
 const errors = require("./utils/errorHandler");
 const usersRouter = require("./routes/UserRoutes");
+const petsRouter = require("./routes/PetRoutes");
 
 // middleware for parsing requests
 app.use(cors());
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 // middleware for routes and errors
 app.use("/users", usersRouter);
+app.use("/pets", petsRouter);
 app.use(errors.errorHandler);
 
 // mongoDB connection

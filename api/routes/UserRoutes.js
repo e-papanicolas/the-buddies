@@ -1,8 +1,20 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../models/user");
 
-router.get("/", (req, res, next) => {
-  console.log("hi from a get route");
-});
+async function getById(id) {
+  const user = await User.findById(id);
+  // call toJSON method applied during model instantiation
+  return user.toJSON();
+}
+
+// sign up - create new user
+router.post("/register", (req, res, next) => {});
+
+// login
+router.post("/login", (req, res, next) => {});
+
+// get / show user
+router.get("/:id", (req, res, next) => {});
 
 module.exports = router;

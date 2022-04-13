@@ -7,18 +7,13 @@ const UserSchema = new Schema({
     required: true,
     unique: true,
   },
-  passwordHash: {
+  password: {
     type: String,
     required: true,
   },
   full_name: {
     type: String,
     required: true,
-  },
-  tokenSeed: {
-    type: String,
-    required: true,
-    unique: true,
   },
   created: {
     type: Date,
