@@ -23,7 +23,7 @@ export default function Login({ handleLogin }) {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        handleLogin(data.user);
+        handleLogin(data);
       })
       .catch((e) => {
         console.log(e);

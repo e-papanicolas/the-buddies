@@ -20,7 +20,12 @@ export default function Signup({ handleLogin }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
-    }).then(console.log);
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        handleLogin(data);
+      });
     // .then((res) => res.json())
     // .then((data) => {
     //   console.log(data);

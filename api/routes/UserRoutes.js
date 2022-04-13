@@ -9,12 +9,20 @@ async function getById(id) {
 }
 
 // sign up - create new user
-router.post("/register", (req, res, next) => {});
+router.post("/register", (req, res, next) => {
+  const user = new User(req.body);
+  user.save();
+  console.log(user);
+  res.json(user);
+});
 
 // login
 router.post("/login", (req, res, next) => {});
 
 // get / show user
 router.get("/:id", (req, res, next) => {});
+
+// update user
+router.put("/:id", (req, res, next) => {});
 
 module.exports = router;
