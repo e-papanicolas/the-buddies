@@ -25,12 +25,12 @@ export default function App() {
 
   // set state
   const [currentUser, setCurrentUser] = useState({
+    created: "2022-04-13T14:06:35.016Z",
     email: "elenipapanicolas@gmail.com",
-    password: "123",
     full_name: "Eleni Papanicolas",
-    id: "625717a4166ed55a7e527574",
+    password: "123",
     pets: [],
-    created: "2022-04-13T18:34:12.479Z",
+    id: "6256d8eb0bebd379281961af",
   });
   const [currentPet, setCurrentPet] = useState({});
   // const [errors, setErrors] = useState([]);
@@ -55,21 +55,18 @@ export default function App() {
   }
 
   // fetches the user from api and sets user in state
-  // useEffect(() => {
-  //   fetch(`/users/${currentUser.id}`).then((res) => {
-  //     if (res.ok) {
-  //       res.json().then((data) => {
-  //         setCurrentUser(data.user);
-  //         setLoggedIn(true);
-  //       });
-  //     } else {
-  //       res.json().then((data) => {
-  // setErrors(data.errors);
-  //         console.log(data);
-  //       });
-  //     }
-  //   });
-  // }, []);
+  useEffect(() => {
+    fetch(`/users/${currentUser.id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, [currentUser.id]);
 
   if (!isLoggedIn) {
     return (

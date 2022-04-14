@@ -25,6 +25,19 @@ const UserSchema = new Schema({
   },
 });
 
+UserSchema.statics = {
+  get(id) {
+    return this.findById(id)
+      .exec()
+      .then((user) => {
+        if (user) {
+          return user;
+        }
+        const err = new Error("No such user exists!");
+        return err;
+      });
+  },
+};
 const User = mongoose.model("user", UserSchema);
 
 module.exports = User;

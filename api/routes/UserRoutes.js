@@ -2,14 +2,6 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 
-const users = User.find();
-
-async function getById(id) {
-  const user = await User.findById(id);
-  // call toJSON method applied
-  return user.toJSON();
-}
-
 // sign up - create new user
 router.post("/register", (req, res, next) => {
   const user = new User(req.body);
@@ -19,24 +11,21 @@ router.post("/register", (req, res, next) => {
 
 // login
 router.post("/login", (req, res, next) => {
-  const { email } = req.body;
+  const { email, password } = req.body;
   const user = User.find({ email: email });
-  res.json(user);
+  if (user.password === password) {
+    res.json(user);
+  } else {
+    res.status(401).send("Incorrect password");
+  }
 });
 
 // logout
-router.get("/:id/logout", (req, res, next) => {
-  res.send();
-});
+router.get("/:id/logout", (req, res, next) => {});
 
 // get / show user
 router.get("/:id", (req, res, next) => {
-  const currentUser = getById(req.params.id);
-  if (!currentUser) {
-    res.status(404).send("User not found");
-  }
-
-  res.send(currentUser);
+  User.get(req.params.id).then((user) => res.json(user));
 });
 
 // update user
