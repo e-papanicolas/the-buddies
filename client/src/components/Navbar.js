@@ -19,7 +19,7 @@ export default function Navbar({ user, setCurrentPet }) {
             <option value="Select a pet">Select a pet</option>
             {user.pets.map((pet) => {
               return (
-                <option key={pet.id} value={pet.pet_name}>
+                <option key={pet._id} value={pet.pet_name}>
                   {pet.pet_name}
                 </option>
               );

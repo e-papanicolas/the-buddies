@@ -15,10 +15,12 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
-  pets: {
-    type: [Schema.Types.ObjectId],
-    required: false,
-  },
+  pets: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Pet",
+    },
+  ],
   created: {
     type: Date,
     default: () => new Date(),

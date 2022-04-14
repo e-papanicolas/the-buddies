@@ -2,6 +2,11 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const PetSchema = new Schema({
+  parent_id: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
   pet_name: {
     type: String,
     required: true,
@@ -35,6 +40,20 @@ const PetSchema = new Schema({
     required: false,
   },
 });
+
+PetSchema.statics = {
+  get(id) {
+    return this.findById(id)
+      .exec()
+      .then((pet) => {
+        if (pet) {
+          return pet;
+        }
+        const err = new Error("No such pet exists!");
+        return err;
+      });
+  },
+};
 
 const Pet = mongoose.model("pet", PetSchema);
 

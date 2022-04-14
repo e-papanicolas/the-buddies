@@ -2,7 +2,7 @@ import React from "react";
 
 // We use Route in order to define the different routes of our application
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 
 // We import all the components we need in our app
 import Navbar from "./components/Navbar";
@@ -20,17 +20,19 @@ import NewHealthRecordForm from "./components/health/NewHealthRecordForm";
 import NewVetForm from "./components/health/NewVetForm";
 import NewApptForm from "./components/health/NewApptForm";
 
-export default function App() {
+export const UserContext = createContext({});
+
+export function App() {
   const navigate = useNavigate();
 
   // set state
   const [currentUser, setCurrentUser] = useState({
-    created: "2022-04-13T14:06:35.016Z",
-    email: "elenipapanicolas@gmail.com",
-    full_name: "Eleni Papanicolas",
-    password: "123",
+    created: "",
+    email: "",
+    full_name: "",
+    password: "",
     pets: [],
-    id: "6256d8eb0bebd379281961af",
+    id: "",
   });
   const [currentPet, setCurrentPet] = useState({});
   // const [errors, setErrors] = useState([]);
@@ -84,30 +86,38 @@ export default function App() {
 
   return (
     <div className="app">
-      <Navbar
-        handleLogOut={handleLogOut}
-        user={currentUser}
-        setCurrentPet={setCurrentPet}
-      />
-      <Routes>
-        <Route
-          path="/dashboard"
-          element={<Dashboard user={currentUser} currentPet={currentPet} />}
+      <UserContext.Provider value={currentUser}>
+        <Navbar
+          handleLogOut={handleLogOut}
+          user={currentUser}
+          setCurrentPet={setCurrentPet}
         />
-        <Route path="/food/:name" element={<Food />}>
-          <Route path="new_feeding_schedule" element={<NewFeedingSchedule />} />
-          <Route path="new_meal" element={<NewMealEntryForm />} />
-        </Route>
-        <Route path="/health/:name" element={<Health />}>
-          <Route path="new_record" element={<NewHealthRecordForm />} />
-          <Route path="new_vet" element={<NewVetForm />} />
-          <Route path="new_appt" element={<NewApptForm />} />
-        </Route>
-        <Route path="/profile/:name" element={<Profile />}>
-          <Route path="update_pet" element={<UpdatePetForm />} />
-        </Route>
-        <Route path="/new_pet" element={<NewPetForm />} />
-      </Routes>
+        <Routes>
+          <Route
+            path="/dashboard"
+            element={<Dashboard user={currentUser} currentPet={currentPet} />}
+          />
+          <Route path="/food/:name" element={<Food />}>
+            <Route
+              path="new_feeding_schedule"
+              element={<NewFeedingSchedule />}
+            />
+            <Route path="new_meal" element={<NewMealEntryForm />} />
+          </Route>
+          <Route path="/health/:name" element={<Health />}>
+            <Route path="new_record" element={<NewHealthRecordForm />} />
+            <Route path="new_vet" element={<NewVetForm />} />
+            <Route path="new_appt" element={<NewApptForm />} />
+          </Route>
+          <Route path="/profile/:name" element={<Profile />}>
+            <Route path="update_pet" element={<UpdatePetForm />} />
+          </Route>
+          <Route
+            path="/new_pet"
+            element={<NewPetForm user={currentUser} setUser={setCurrentUser} />}
+          />
+        </Routes>
+      </UserContext.Provider>
     </div>
   );
 }

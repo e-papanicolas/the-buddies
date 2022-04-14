@@ -12,12 +12,13 @@ router.post("/register", (req, res, next) => {
 // login
 router.post("/login", (req, res, next) => {
   const { email, password } = req.body;
-  const user = User.find({ email: email });
-  if (user.password === password) {
-    res.json(user);
-  } else {
-    res.status(401).send("Incorrect password");
-  }
+  User.findOne({ email: email }).then((user) => {
+    if (user.password === password) {
+      res.json(user);
+    } else {
+      res.status(401).send("Incorrect password");
+    }
+  });
 });
 
 // logout
