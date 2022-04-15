@@ -7,7 +7,7 @@ export default function NewPetForm({ setUser }) {
   console.log(user);
 
   const [newPetData, setNewPetData] = useState({
-    parent_id: user.id,
+    parent_id: user._id,
     pet_name: "",
     DOB: "",
     weight: 0,
@@ -20,7 +20,6 @@ export default function NewPetForm({ setUser }) {
 
   const handleSubmitNewPet = async (e) => {
     e.preventDefault();
-    console.log(newPetData);
     const response = await fetch(`/pets/new`, {
       method: "POST",
       headers: {
@@ -29,9 +28,12 @@ export default function NewPetForm({ setUser }) {
       body: JSON.stringify(newPetData),
     });
 
-    const data = await response.json();
-    user.pets.push(data);
-    setUser({ ...user });
+    await response.json().then((data) => {
+      // setUser({ ...user, pets: [...user.pets, data.id] });
+      console.log(data);
+      setUser({ ...user, pets: [...user.pets, data._id] });
+      console.log(user);
+    });
   };
 
   const handleFormChange = (e) => {

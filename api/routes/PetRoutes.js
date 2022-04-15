@@ -16,8 +16,10 @@ router.post("/new", (req, res, next) => {
   const newPet = new Pet(req.body);
   newPet.save();
   User.get(newPet.parent_id).then((user) => {
-    user.pets.push(newPet);
-    res.json(user);
+    console.log(user.pets);
+    user.pets.push(newPet._id);
+    console.log(user.pets);
+    res.json(newPet);
   });
 });
 

@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const PetSchema = new Schema({
   parent_id: {
     type: Schema.Types.ObjectId,
-    ref: "User",
+    ref: "user",
     required: true,
   },
   pet_name: {

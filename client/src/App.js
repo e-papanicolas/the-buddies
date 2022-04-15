@@ -26,14 +26,8 @@ export function App() {
   const navigate = useNavigate();
 
   // set state
-  const [currentUser, setCurrentUser] = useState({
-    created: "",
-    email: "",
-    full_name: "",
-    password: "",
-    pets: [],
-    id: "",
-  });
+  const [currentUser, setCurrentUser] = useState({});
+  currentUser.id = "62585a8f2802361968104ef2";
   const [currentPet, setCurrentPet] = useState({});
   // const [errors, setErrors] = useState([]);
   const [isLoggedIn, setLoggedIn] = useState(true);
@@ -66,8 +60,9 @@ export function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-      });
+        setCurrentUser(data);
+      })
+      .catch((e) => console.log(e));
   }, [currentUser.id]);
 
   if (!isLoggedIn) {

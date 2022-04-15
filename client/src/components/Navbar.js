@@ -17,13 +17,13 @@ export default function Navbar({ user, setCurrentPet }) {
         <form>
           <select onChange={(e) => handlePetChange(e)}>
             <option value="Select a pet">Select a pet</option>
-            {user.pets.map((pet) => {
+            {/* {user.pets.map((pet) => {
               return (
                 <option key={pet._id} value={pet.pet_name}>
                   {pet.pet_name}
                 </option>
               );
-            })}
+            })} */}
           </select>
         </form>
       </div>
