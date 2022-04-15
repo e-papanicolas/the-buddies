@@ -4,7 +4,6 @@ import { UserContext } from "../../App";
 
 export default function NewPetForm({ setUser }) {
   const user = useContext(UserContext);
-  console.log(user);
 
   const [newPetData, setNewPetData] = useState({
     parent_id: user.id,
@@ -29,11 +28,10 @@ export default function NewPetForm({ setUser }) {
     });
 
     await response.json().then((data) => {
-      // setUser({ ...user, pets: [...user.pets, data.id] });
-      console.log(data);
-      setUser({ ...user, pets: [...user.pets, data._id] });
+      setUser({ ...user });
       console.log(user);
     });
+    //, pets: [...user.pets, data._id]
   };
 
   const handleFormChange = (e) => {

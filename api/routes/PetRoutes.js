@@ -3,6 +3,13 @@ const router = express.Router();
 const Pet = require("../models/pet");
 const User = require("../models/user");
 
+// get users pets
+router.get("/:user_id/all_pets", (req, res, next) => {
+  Pet.find({ parent_id: req.params.user_id }).then((pets) => {
+    res.json(pets);
+  });
+});
+
 // show pet profile
 router.get("/:name/profile", (req, res, next) => {
   Pet.get(req.params.id).then((pet) => res.json(pet));

@@ -27,7 +27,7 @@ export function App() {
 
   // set state
   const [currentUser, setCurrentUser] = useState({});
-  currentUser.id = "62585a8f2802361968104ef2";
+  const [allPets, setPets] = useState([]);
   const [currentPet, setCurrentPet] = useState({});
   // const [errors, setErrors] = useState([]);
   const [isLoggedIn, setLoggedIn] = useState(true);
@@ -52,7 +52,7 @@ export function App() {
 
   // fetches the user from api and sets user in state
   useEffect(() => {
-    fetch(`/users/${currentUser.id}`, {
+    fetch(`/users/62585a8f2802361968104ef2`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -64,6 +64,22 @@ export function App() {
       })
       .catch((e) => console.log(e));
   }, [currentUser.id]);
+
+  // fetches all pets that belong to user
+  useEffect(() => {
+    fetch(`/pets/62585a8f2802361968104ef2/all_pets`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setPets(data);
+      })
+      .catch((e) => console.log(e));
+  }, []);
 
   if (!isLoggedIn) {
     return (
@@ -84,13 +100,13 @@ export function App() {
       <UserContext.Provider value={currentUser}>
         <Navbar
           handleLogOut={handleLogOut}
-          user={currentUser}
           setCurrentPet={setCurrentPet}
+          pets={allPets}
         />
         <Routes>
           <Route
             path="/dashboard"
-            element={<Dashboard user={currentUser} currentPet={currentPet} />}
+            element={<Dashboard currentPet={currentPet} />}
           />
           <Route path="/food/:name" element={<Food />}>
             <Route
