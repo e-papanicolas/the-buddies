@@ -25,7 +25,7 @@ router.post("/new", (req, res, next) => {
   User.get(newPet.parent_id).then((user) => {
     user.pets.push(newPet.id);
     user.save();
-    res.json(newPet);
+    res.json({ newPet, user });
   });
 });
 

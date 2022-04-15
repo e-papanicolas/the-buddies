@@ -36,7 +36,7 @@ export function App() {
   function handleLogin(user) {
     setCurrentUser(user);
     setLoggedIn(true);
-    navigate("/dashboard");
+    navigate(`/dashboard/${currentPet.name}`);
   }
 
   function handleLogOut() {
@@ -75,8 +75,8 @@ export function App() {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setPets(data);
+        setCurrentPet(data[0]);
       })
       .catch((e) => console.log(e));
   }, []);
@@ -105,7 +105,7 @@ export function App() {
         />
         <Routes>
           <Route
-            path="/dashboard"
+            path="/dashboard/:name"
             element={<Dashboard currentPet={currentPet} />}
           />
           <Route path="/food/:name" element={<Food />}>
@@ -125,7 +125,7 @@ export function App() {
           </Route>
           <Route
             path="/new_pet"
-            element={<NewPetForm user={currentUser} setUser={setCurrentUser} />}
+            element={<NewPetForm setPets={setPets} pets={allPets} />}
           />
         </Routes>
       </UserContext.Provider>

@@ -6,6 +6,7 @@ import { useContext } from "react";
 export default function Dashboard({ currentPet }) {
   const user = useContext(UserContext);
   console.log(user);
+  console.log(currentPet);
   return (
     <div className="dashboard-container">
       <div className="todays-meals">meals div</div>

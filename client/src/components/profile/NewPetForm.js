@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useContext } from "react";
 import { UserContext } from "../../App";
+import { Link } from "react-router-dom";
 
-export default function NewPetForm({ setUser }) {
+export default function NewPetForm({ setPets, pets }) {
   const user = useContext(UserContext);
-
   const [newPetData, setNewPetData] = useState({
-    parent_id: user.id,
+    parent_id: user._id,
     pet_name: "",
     DOB: "",
     weight: 0,
@@ -17,6 +17,7 @@ export default function NewPetForm({ setUser }) {
     notes: [],
   });
 
+  // sends new pet object to back end for creating in database
   const handleSubmitNewPet = async (e) => {
     e.preventDefault();
     const response = await fetch(`/pets/new`, {
@@ -24,16 +25,16 @@ export default function NewPetForm({ setUser }) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newPetData),
+      body: JSON.stringify({ ...newPetData, parent_id: user._id }),
     });
 
     await response.json().then((data) => {
-      setUser({ ...user });
-      console.log(user);
+      console.log(data);
+      setPets([...pets, data.newPet]);
     });
-    //, pets: [...user.pets, data._id]
   };
 
+  //  handles updating form state on all changes
   const handleFormChange = (e) => {
     if (e.target.name === "weight" || "calorie_goal") {
       setNewPetData({
@@ -55,6 +56,7 @@ export default function NewPetForm({ setUser }) {
     <div>
       <form onSubmit={handleSubmitNewPet}>
         <div>
+          <Link to="/dashboard">X</Link>
           <h3>Add new Buddie form</h3>
           <label>
             What is your Buddies name ?
