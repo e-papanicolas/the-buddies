@@ -7,7 +7,7 @@ export default function NewPetForm({ setUser }) {
   console.log(user);
 
   const [newPetData, setNewPetData] = useState({
-    parent_id: user._id,
+    parent_id: user.id,
     pet_name: "",
     DOB: "",
     weight: 0,
