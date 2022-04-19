@@ -21,6 +21,7 @@ import NewVetForm from "./components/health/NewVetForm";
 import NewApptForm from "./components/health/NewApptForm";
 
 export const UserContext = createContext({});
+export const PetContext = createContext({});
 
 export function App() {
   const navigate = useNavigate();
@@ -99,42 +100,35 @@ export function App() {
   return (
     <div className="app">
       <UserContext.Provider value={currentUser}>
-        <Navbar
-          handleLogOut={handleLogOut}
-          setCurrentPet={setCurrentPet}
-          pets={allPets}
-        />
-        <Routes>
-          <Route
-            path="/dashboard/:name"
-            element={<Dashboard currentPet={currentPet} />}
+        <PetContext.Provider value={currentPet}>
+          <Navbar
+            handleLogOut={handleLogOut}
+            setCurrentPet={setCurrentPet}
+            pets={allPets}
           />
-          <Route path="/food/:name" element={<Food />}>
+          <Routes>
+            <Route path="/dashboard/:name" element={<Dashboard />} />
+            <Route path="/food/:name" element={<Food />}>
+              <Route
+                path="new_feeding_schedule"
+                element={<NewFeedingSchedule />}
+              />
+              <Route path="new_meal" element={<NewMealEntryForm />} />
+            </Route>
+            <Route path="/health/:name" element={<Health />}>
+              <Route path="new_record" element={<NewHealthRecordForm />} />
+              <Route path="new_vet" element={<NewVetForm />} />
+              <Route path="new_appt" element={<NewApptForm />} />
+            </Route>
+            <Route path="/profile/:name" element={<Profile />}>
+              <Route path="update_pet" element={<UpdatePetForm />} />
+            </Route>
             <Route
-              path="new_feeding_schedule"
-              element={<NewFeedingSchedule />}
+              path="/new_pet"
+              element={<NewPetForm setPets={setPets} pets={allPets} />}
             />
-            <Route path="new_meal" element={<NewMealEntryForm />} />
-          </Route>
-          <Route path="/health/:name" element={<Health />}>
-            <Route path="new_record" element={<NewHealthRecordForm />} />
-            <Route path="new_vet" element={<NewVetForm />} />
-            <Route path="new_appt" element={<NewApptForm />} />
-          </Route>
-          <Route
-            path="/profile/:name"
-            element={<Profile currentPet={currentPet} />}
-          >
-            <Route
-              path="update_pet"
-              element={<UpdatePetForm currentPet={currentPet} />}
-            />
-          </Route>
-          <Route
-            path="/new_pet"
-            element={<NewPetForm setPets={setPets} pets={allPets} />}
-          />
-        </Routes>
+          </Routes>
+        </PetContext.Provider>
       </UserContext.Provider>
     </div>
   );

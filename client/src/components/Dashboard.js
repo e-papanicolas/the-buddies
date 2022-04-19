@@ -1,8 +1,11 @@
 import React from "react";
 import "../styles/main.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { PetContext } from "../App";
+import { useContext } from "react";
 
-export default function Dashboard({ currentPet }) {
+export default function Dashboard() {
+  const currentPet = useContext(PetContext);
   const navigate = useNavigate();
   return (
     <div className="dashboard-container">

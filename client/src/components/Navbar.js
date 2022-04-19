@@ -1,11 +1,12 @@
 import React from "react";
 import "../styles/main.css";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
+import { UserContext, PetContext } from "../App";
 import { useContext } from "react";
 
 export default function Navbar({ setCurrentPet, pets }) {
   const user = useContext(UserContext);
+  const currentPet = useContext(PetContext);
   const navigate = useNavigate();
 
   const handlePetChange = (e) => {
@@ -23,7 +24,9 @@ export default function Navbar({ setCurrentPet, pets }) {
   return (
     <div className="nav">
       <div className="nav-left">
-        <h2>DASHBOARD</h2>
+        <h2 onClick={() => navigate(`/dashboard/${currentPet.pet_name}`)}>
+          DASHBOARD
+        </h2>
         <form>
           <select onChange={(e) => handlePetChange(e)}>
             {pets.map((pet) => {
