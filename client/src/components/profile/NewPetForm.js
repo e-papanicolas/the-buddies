@@ -51,12 +51,12 @@ export default function NewPetForm({ setPets, pets }) {
 
     setNewPetData({ ...newPetData, [e.target.name]: e.target.value });
   };
-
+  // TODO: fix close button rout back to dashboard
   return (
     <div>
       <form onSubmit={handleSubmitNewPet}>
         <div>
-          <Link to="/dashboard">X</Link>
+          <Link to="/dashboard/">X</Link>
           <h3>Add new Buddie form</h3>
           <label>
             What is your Buddies name ?

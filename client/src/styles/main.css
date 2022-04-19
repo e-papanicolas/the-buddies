@@ -38,5 +38,6 @@
 .dashboard-container > div {
   width: 40%;
   height: 30%;
-  border: 1px solid red;
+  border: 1px solid black;
+  padding: 1%;
 }

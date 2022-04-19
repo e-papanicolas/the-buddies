@@ -121,8 +121,14 @@ export function App() {
             <Route path="new_vet" element={<NewVetForm />} />
             <Route path="new_appt" element={<NewApptForm />} />
           </Route>
-          <Route path="/profile/:name" element={<Profile />}>
-            <Route path="update_pet" element={<UpdatePetForm />} />
+          <Route
+            path="/profile/:name"
+            element={<Profile currentPet={currentPet} />}
+          >
+            <Route
+              path="update_pet"
+              element={<UpdatePetForm currentPet={currentPet} />}
+            />
           </Route>
           <Route
             path="/new_pet"
