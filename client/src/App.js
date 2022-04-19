@@ -76,6 +76,7 @@ export function App() {
       .then((res) => res.json())
       .then((data) => {
         setPets(data);
+        // TODO: make this default to last open pet
         setCurrentPet(data[0]);
       })
       .catch((e) => console.log(e));

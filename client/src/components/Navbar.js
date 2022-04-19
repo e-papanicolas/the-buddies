@@ -10,7 +10,8 @@ export default function Navbar({ setCurrentPet, pets }) {
 
   const handlePetChange = (e) => {
     const petName = e.target.value;
-    const pet = user.pets[petName];
+    const pet = pets.find((pet) => pet.pet_name === petName);
+    console.log(pets);
     setCurrentPet(pet);
     navigate(`/dashboard/${petName}`);
   };
