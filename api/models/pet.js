@@ -39,6 +39,11 @@ const PetSchema = new Schema({
     type: [String],
     required: false,
   },
+  meal_plan: {
+    type: Schema.Types.ObjectId,
+    ref: "meal_plan",
+    required: false,
+  },
 });
 
 PetSchema.statics = {

@@ -108,21 +108,26 @@ export function App() {
           />
           <Routes>
             <Route path="/dashboard/:name" element={<Dashboard />} />
-            <Route path="/food/:name" element={<Food />}>
-              <Route
-                path="new_feeding_schedule"
-                element={<NewFeedingSchedule />}
-              />
-              <Route path="new_meal" element={<NewMealEntryForm />} />
-            </Route>
-            <Route path="/health/:name" element={<Health />}>
-              <Route path="new_record" element={<NewHealthRecordForm />} />
-              <Route path="new_vet" element={<NewVetForm />} />
-              <Route path="new_appt" element={<NewApptForm />} />
-            </Route>
-            <Route path="/profile/:name" element={<Profile />}>
-              <Route path="update_pet" element={<UpdatePetForm />} />
-            </Route>
+            <Route path="/food/:name" element={<Food />} />
+            <Route
+              path="/food/:name/new_feeding_schedule"
+              element={<NewFeedingSchedule />}
+            />
+            <Route path="/food/:name/new_meal" element={<NewMealEntryForm />} />
+
+            <Route path="/health/:name" element={<Health />} />
+            <Route
+              path="/health/:name/new_record"
+              element={<NewHealthRecordForm />}
+            />
+            <Route path="/health/:name/new_vet" element={<NewVetForm />} />
+            <Route path="/health/:name/new_appt" element={<NewApptForm />} />
+
+            <Route path="/profile/:name" element={<Profile />} />
+            <Route
+              path="/profile/:name/update_pet"
+              element={<UpdatePetForm />}
+            />
             <Route
               path="/new_pet"
               element={<NewPetForm setPets={setPets} pets={allPets} />}
