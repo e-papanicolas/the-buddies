@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Pet = require("../models/pet");
 const User = require("../models/user");
+const MealPlan = require("../models/feeding_schedule");
 
 // get users pets
 router.get("/:user_id/all_pets", (req, res, next) => {
@@ -27,6 +28,13 @@ router.post("/new", (req, res, next) => {
     user.save();
     res.json({ newPet, user });
   });
+});
+
+// create new feeding schedule for pet
+router.post("/:name/new_feeding_schedule", (req, res, next) => {
+  const newSched = new MealPlan(req.body);
+  newSched.save();
+  res.json(newSched);
 });
 
 // delete pet

@@ -1,10 +1,11 @@
 import React from "react";
-import { useState, useContext } from "react";
-import { UserContext } from "../../App";
-import { Link } from "react-router-dom";
+import { useState, useContext, useNavigate } from "react";
+import { UserContext, PetContext } from "../../App";
 
 export default function NewPetForm({ setPets, pets }) {
   const user = useContext(UserContext);
+  const currentPet = useContext(PetContext);
+  const navigate = useNavigate();
   const [newPetData, setNewPetData] = useState({
     parent_id: user._id,
     pet_name: "",
@@ -51,12 +52,14 @@ export default function NewPetForm({ setPets, pets }) {
 
     setNewPetData({ ...newPetData, [e.target.name]: e.target.value });
   };
-  // TODO: fix close button rout back to dashboard
+
   return (
     <div>
+      <button onClick={() => navigate(`/dashboard/${currentPet.pet_name}`)}>
+        X
+      </button>
       <form onSubmit={handleSubmitNewPet}>
         <div>
-          <Link to="/dashboard/">X</Link>
           <h3>Add new Buddie form</h3>
           <label>
             What is your Buddies name ?

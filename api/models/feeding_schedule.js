@@ -3,13 +3,18 @@ const { Schema } = mongoose;
 
 const MealPlanSchema = new Schema({
   breakfast: {
-    type: Date,
+    type: String,
   },
   lunch: {
-    type: Date,
+    type: String,
   },
   dinner: {
-    type: Date,
+    type: String,
+  },
+  pet_id: {
+    type: Schema.Types.ObjectId,
+    ref: "pet",
+    required: true,
   },
 });
 
