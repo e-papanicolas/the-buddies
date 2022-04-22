@@ -122,6 +122,11 @@ export default function NewPetForm({ setPets, pets }) {
           </label>
         </div>
         {/* <div>
+          <label htmlFor="image" className="upload-photo">
+            <input type="file" name="image" accept="image/*" />
+          </label>
+        </div> */}
+        {/* <div>
           <label>
             :
             <input type="" name="" onChange={handleFormChange} />

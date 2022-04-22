@@ -2,6 +2,7 @@ client/node_modules
 api/node_modules
 .DS_Store
 other/
+api/uploads
 # dependencies
 /node_modules
 /.pnp

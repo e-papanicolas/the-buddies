@@ -44,6 +44,10 @@ const PetSchema = new Schema({
     ref: "meal_plan",
     required: false,
   },
+  img: {
+    data: Buffer,
+    contentType: String,
+  },
 });
 
 PetSchema.statics = {
