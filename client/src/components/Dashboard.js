@@ -2,39 +2,11 @@ import React from "react";
 import "../styles/main.css";
 import { useNavigate } from "react-router-dom";
 import { PetContext } from "../App";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 export default function Dashboard() {
   const currentPet = useContext(PetContext);
   const navigate = useNavigate();
-  const [profilePic, setProfilePic] = useState({});
-
-  const arrayBufferToBase64 = (buffer) => {
-    let binary = "";
-    const bytes = [].slice.call(new Uint8Array(buffer));
-    bytes.forEach((b) => (binary += String.fromCharCode(b)));
-    return window.btoa(binary);
-  };
-
-  const uploadPicture = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
-    const response = await fetch("/image", {
-      method: "POST",
-      // headers: {
-      //   Accept: "application/json",
-      // },
-      body: formData,
-    });
-
-    const data = await response.json();
-    console.log(data);
-
-    const base64Flag = "data:image/jpeg;base64,";
-    const imageStr = arrayBufferToBase64(data.img.data.data);
-    setProfilePic({ image: base64Flag + imageStr });
-    console.log(profilePic);
-  };
 
   return (
     <div className="dashboard-container">
@@ -72,16 +44,6 @@ export default function Dashboard() {
       <div className="records-overview">records div</div>
       <div className="reminders">
         <p>reminders div</p>
-        <form onSubmit={uploadPicture}>
-          <div>
-            <p>Upload a profile pic for buddie</p>
-            <label htmlFor="image" className="upload-photo">
-              <input type="file" name="image" accept="image/*" />
-            </label>
-            <input type="submit" />
-          </div>
-          <img alt="test" src={profilePic} />
-        </form>
       </div>
     </div>
   );

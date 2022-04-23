@@ -5,7 +5,7 @@ import { UserContext, PetContext } from "../../App";
 export default function NewPetForm({ setPets, pets }) {
   const user = useContext(UserContext);
   const currentPet = useContext(PetContext);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [newPetData, setNewPetData] = useState({
     parent_id: user._id,
     pet_name: "",
@@ -17,16 +17,20 @@ export default function NewPetForm({ setPets, pets }) {
     allergies: [],
     notes: [],
   });
+  const [image, setImage] = useState(null);
 
   // sends new pet object to back end for creating in database
   const handleSubmitNewPet = async (e) => {
     e.preventDefault();
+    let formData = new FormData();
+    formData.append("data", newPetData);
+    formData.append("image", image);
     const response = await fetch(`/pets/new`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
-      body: JSON.stringify({ ...newPetData, parent_id: user._id }),
+      body: formData,
     });
 
     await response.json().then((data) => {
@@ -53,54 +57,40 @@ export default function NewPetForm({ setPets, pets }) {
     setNewPetData({ ...newPetData, [e.target.name]: e.target.value });
   };
 
+  const handleUploadFormChange = (e) => {
+    let file = e.target.files[0];
+    setImage(file);
+  };
+
   return (
     <div>
-      <button onClick={() => navigate(`/dashboard/${currentPet.pet_name}`)}>
+      {/* <button onClick={() => navigate(`/dashboard/${currentPet.pet_name}`)}>
         X
-      </button>
-      <form onSubmit={handleSubmitNewPet}>
+      </button> */}
+      <form onSubmit={handleSubmitNewPet} encType="multipart/form">
         <div>
           <h3>Add new Buddie form</h3>
           <label>
             What is your Buddies name ?
-            <input
-              type="text"
-              name="pet_name"
-              // value={newPetData.pet_name}
-              onChange={handleFormChange}
-            />
+            <input type="text" name="pet_name" onChange={handleFormChange} />
           </label>
         </div>
         <div>
           <label>
             What is your Buddies birthday ?
-            <input
-              type="date"
-              name="DOB"
-              // value={newPetData.DOB}
-              onChange={handleFormChange}
-            />
+            <input type="date" name="DOB" onChange={handleFormChange} />
           </label>
         </div>
         <div>
           <label>
             How much does your Buddie weigh ?
-            <input
-              type="number"
-              name="weight"
-              // value={newPetData.weight}
-              onChange={handleFormChange}
-            />
+            <input type="number" name="weight" onChange={handleFormChange} />
           </label>
         </div>
         <div>
           <label>
             What is your Buddies activity level ?
-            <select
-              name="activity_level"
-              // value={newPetData.activity_level}
-              onChange={handleFormChange}
-            >
+            <select name="activity_level" onChange={handleFormChange}>
               <option value="Select an activity level">
                 Select an activity level
               </option>
@@ -116,16 +106,22 @@ export default function NewPetForm({ setPets, pets }) {
             <input
               type="number"
               name="calorie_goal"
-              // value={newPetData.calorie_goal}
               onChange={handleFormChange}
             />
           </label>
         </div>
-        {/* <div>
+        <div>
+          <p>Upload a profile pic for buddie</p>
           <label htmlFor="image" className="upload-photo">
-            <input type="file" name="image" accept="image/*" />
+            <input
+              type="file"
+              name="image"
+              accept="image/*"
+              onChange={handleUploadFormChange}
+            />
           </label>
-        </div> */}
+        </div>
+
         {/* <div>
           <label>
             :
