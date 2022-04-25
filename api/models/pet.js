@@ -17,11 +17,11 @@ const PetSchema = new Schema({
   },
   weight: {
     type: Number,
-    required: false,
+    required: true,
   },
   activity_level: {
     type: String,
-    required: false,
+    required: true,
   },
   calorie_goal: {
     type: Number,
@@ -44,9 +44,10 @@ const PetSchema = new Schema({
     ref: "meal_plan",
     required: false,
   },
-  image_url: {
-    type: String,
-    required: false,
+  image: {
+    url: {
+      type: String,
+    },
   },
 });
 

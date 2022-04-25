@@ -38,6 +38,7 @@ export default function Navbar({ setCurrentPet, pets }) {
             })}
           </select>
         </form>
+        <img src={currentPet.image.url} alt="a small version of pet avatar" />
       </div>
       <div className="nav-right">
         <Link to="/new_pet">+</Link>

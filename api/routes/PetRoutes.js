@@ -6,7 +6,7 @@ const User = require("../models/user");
 const MealPlan = require("../models/feeding_schedule");
 
 const multer = require("multer");
-const cloudinary = require("cloudinary");
+const cloudinary = require("cloudinary").v2;
 const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 cloudinary.config({
@@ -41,11 +41,9 @@ router.put("/:name/profile/update", (req, res, next) => {});
 
 // create new pet
 router.post("/new", parser.single("image"), (req, res, next) => {
-  console.log(req.body);
-  console.log(req.file);
   const image = {};
-  image.url = req.file.url;
-  const newPet = new Pet({ ...req.body, [image_url]: image.url });
+  image.url = req.file.path;
+  const newPet = new Pet({ ...req.body, image });
   newPet.save();
   User.get(newPet.parent_id).then((user) => {
     user.pets.push(newPet.id);

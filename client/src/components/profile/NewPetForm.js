@@ -4,8 +4,8 @@ import { UserContext, PetContext } from "../../App";
 
 export default function NewPetForm({ setPets, pets }) {
   const user = useContext(UserContext);
-  // const currentPet = useContext(PetContext);
-  // const navigate = useNavigate();
+  const currentPet = useContext(PetContext);
+  const navigate = useNavigate();
   const [petName, setPetName] = useState("");
   const [DOB, setDOB] = useState("");
   const [weight, setWeight] = useState(0);
@@ -17,6 +17,7 @@ export default function NewPetForm({ setPets, pets }) {
   const handleSubmitNewPet = async (e) => {
     e.preventDefault();
 
+    // multi part forms cannot be stringified, so have to append instead
     const formData = new FormData();
     formData.append("parent_id", user._id);
     formData.append("pet_name", petName);
@@ -26,14 +27,8 @@ export default function NewPetForm({ setPets, pets }) {
     formData.append("calorie_goal", calorieGoal);
     formData.append("image", image);
 
-    for (const key of formData.entries()) {
-      console.log(key[0] + ", " + key[1]);
-    }
     const response = await fetch(`/pets/new`, {
       method: "POST",
-      // headers: {
-      //   "Content-Type": "multipart/form-data",
-      // },
       body: formData,
     });
 
@@ -50,9 +45,9 @@ export default function NewPetForm({ setPets, pets }) {
 
   return (
     <div>
-      {/* <button onClick={() => navigate(`/dashboard/${currentPet.pet_name}`)}>
+      <button onClick={() => navigate(`/dashboard/${currentPet.pet_name}`)}>
         X
-      </button> */}
+      </button>
       <form onSubmit={handleSubmitNewPet} encType="multipart/form">
         <div>
           <h3>Add new Buddie form</h3>
