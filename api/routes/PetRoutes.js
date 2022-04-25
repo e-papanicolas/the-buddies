@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+require("dotenv").config();
 const Pet = require("../models/pet");
 const User = require("../models/user");
 const MealPlan = require("../models/feeding_schedule");
@@ -10,15 +11,15 @@ const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 cloudinary.config({
   cloud_name: "eleni",
-  api_key: process.env.API_KEY,
-  api_secret: process.env.API_SECRET,
+  api_key: "747249598932456",
+  api_secret: "s8BlKdlUGuAATZLHBVrF-Gu_RMI",
 });
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  folder: "buddies",
-  allowedFormats: ["jpg", "png"],
-  transformation: [{ width: 500, height: 500, crop: "limit" }],
+  params: {
+    folder: "buddies",
+  },
 });
 
 const parser = multer({ storage: storage });
@@ -41,7 +42,10 @@ router.put("/:name/profile/update", (req, res, next) => {});
 // create new pet
 router.post("/new", parser.single("image"), (req, res, next) => {
   console.log(req.body);
-  const newPet = new Pet(req.body);
+  console.log(req.file);
+  const image = {};
+  image.url = req.file.url;
+  const newPet = new Pet({ ...req.body, [image_url]: image.url });
   newPet.save();
   User.get(newPet.parent_id).then((user) => {
     user.pets.push(newPet.id);

@@ -4,32 +4,36 @@ import { UserContext, PetContext } from "../../App";
 
 export default function NewPetForm({ setPets, pets }) {
   const user = useContext(UserContext);
-  const currentPet = useContext(PetContext);
+  // const currentPet = useContext(PetContext);
   // const navigate = useNavigate();
-  const [newPetData, setNewPetData] = useState({
-    parent_id: user._id,
-    pet_name: "",
-    DOB: "",
-    weight: 0,
-    activity_level: "",
-    calorie_goal: 0,
-    favorite_things: [],
-    allergies: [],
-    notes: [],
-  });
+  const [petName, setPetName] = useState("");
+  const [DOB, setDOB] = useState("");
+  const [weight, setWeight] = useState(0);
+  const [activityLevel, setActivityLevel] = useState("");
+  const [calorieGoal, setCalorieGoal] = useState(0);
   const [image, setImage] = useState(null);
 
   // sends new pet object to back end for creating in database
   const handleSubmitNewPet = async (e) => {
     e.preventDefault();
-    let formData = new FormData();
-    formData.append("data", newPetData);
+
+    const formData = new FormData();
+    formData.append("parent_id", user._id);
+    formData.append("pet_name", petName);
+    formData.append("DOB", DOB);
+    formData.append("weight", weight);
+    formData.append("activity_level", activityLevel);
+    formData.append("calorie_goal", calorieGoal);
     formData.append("image", image);
+
+    for (const key of formData.entries()) {
+      console.log(key[0] + ", " + key[1]);
+    }
     const response = await fetch(`/pets/new`, {
       method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+      // headers: {
+      //   "Content-Type": "multipart/form-data",
+      // },
       body: formData,
     });
 
@@ -37,24 +41,6 @@ export default function NewPetForm({ setPets, pets }) {
       console.log(data);
       setPets([...pets, data.newPet]);
     });
-  };
-
-  //  handles updating form state on all changes
-  const handleFormChange = (e) => {
-    if (e.target.name === "weight" || "calorie_goal") {
-      setNewPetData({
-        ...newPetData,
-        [e.target.name]: parseInt(e.target.value),
-      });
-    }
-    if (e.target.name === "DOB") {
-      setNewPetData({
-        ...newPetData,
-        [e.target.name]: new Date(e.target.value),
-      });
-    }
-
-    setNewPetData({ ...newPetData, [e.target.name]: e.target.value });
   };
 
   const handleUploadFormChange = (e) => {
@@ -72,25 +58,40 @@ export default function NewPetForm({ setPets, pets }) {
           <h3>Add new Buddie form</h3>
           <label>
             What is your Buddies name ?
-            <input type="text" name="pet_name" onChange={handleFormChange} />
+            <input
+              type="text"
+              name="pet_name"
+              onChange={(e) => setPetName(e.target.value)}
+            />
           </label>
         </div>
         <div>
           <label>
             What is your Buddies birthday ?
-            <input type="date" name="DOB" onChange={handleFormChange} />
+            <input
+              type="date"
+              name="DOB"
+              onChange={(e) => setDOB(new Date(e.target.value))}
+            />
           </label>
         </div>
         <div>
           <label>
             How much does your Buddie weigh ?
-            <input type="number" name="weight" onChange={handleFormChange} />
+            <input
+              type="number"
+              name="weight"
+              onChange={(e) => setWeight(parseInt(e.target.value))}
+            />
           </label>
         </div>
         <div>
           <label>
             What is your Buddies activity level ?
-            <select name="activity_level" onChange={handleFormChange}>
+            <select
+              name="activity_level"
+              onChange={(e) => setActivityLevel(e.target.value)}
+            >
               <option value="Select an activity level">
                 Select an activity level
               </option>
@@ -106,7 +107,7 @@ export default function NewPetForm({ setPets, pets }) {
             <input
               type="number"
               name="calorie_goal"
-              onChange={handleFormChange}
+              onChange={(e) => setCalorieGoal(parseInt(e.target.value))}
             />
           </label>
         </div>

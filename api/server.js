@@ -13,8 +13,8 @@ const petsRouter = require("./routes/PetRoutes");
 
 // middleware for parsing requests
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 app.use(cookieParser());
 
 // middleware for routes and errors
