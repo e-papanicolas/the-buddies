@@ -5,9 +5,10 @@ import { UserContext, PetContext } from "../App";
 import { useContext } from "react";
 
 export default function Navbar({ setCurrentPet, pets }) {
-  const user = useContext(UserContext);
+  // const user = useContext(UserContext);
   const currentPet = useContext(PetContext);
   const navigate = useNavigate();
+  console.log(currentPet);
 
   const handlePetChange = (e) => {
     const petName = e.target.value;
@@ -17,9 +18,9 @@ export default function Navbar({ setCurrentPet, pets }) {
     navigate(`/dashboard/${petName}`);
   };
 
-  if (!user.pets) {
-    return <p>Loading...</p>;
-  }
+  // if (!currentPet) {
+  //   return <p>Loading...</p>;
+  // }
 
   return (
     <div className="nav">
@@ -38,7 +39,7 @@ export default function Navbar({ setCurrentPet, pets }) {
             })}
           </select>
         </form>
-        <img src={currentPet.image.url} alt="a small version of pet avatar" />
+        {/* <img src={currentPet.image.url} alt="a small version of pet avatar" /> */}
       </div>
       <div className="nav-right">
         <Link to="/new_pet">+</Link>
